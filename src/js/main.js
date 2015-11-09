@@ -1,4 +1,4 @@
-class Jax {
+export default class Jax {
   constructor(url = '') {
     this.req = new XMLHttpRequest()
 
