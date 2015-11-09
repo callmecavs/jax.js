@@ -35,3 +35,7 @@ new Jax('progress.json')
     // handle response...
   })
 ```
+
+## Browser Support
+
+Targeting evergreen browsers and **IE10+**.
