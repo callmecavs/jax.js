@@ -8,7 +8,7 @@ class Jax {
 
     this.req.addEventListener('readystatechange', event => {
       this.req.readyState === 4 && this.req.status === 200
-        ? this.cb(JSON.parse(this.req.responseText))
+        ? this.cb(this.req.responseText)
         : undefined
     })
 
