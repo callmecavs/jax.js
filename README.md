@@ -39,3 +39,8 @@ new Jax('progress.json')
 ## Browser Support
 
 Targeting evergreen browsers and **IE10+**.
+
+## Roadmap
+
+- [ ] Package for NPM
+- [ ] Cleanup repo
