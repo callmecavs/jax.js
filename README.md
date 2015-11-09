@@ -10,7 +10,7 @@ Mimics Promise syntax, but uses callbacks.
 // JSON request
 new Jax('test.json')
   .then(res => {
-    console.log(JSON.parse(res))
+    const json = JSON.parse(res)
   })
 
 // HTML request
