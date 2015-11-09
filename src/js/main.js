@@ -3,7 +3,7 @@ class Jax {
     this.req = new XMLHttpRequest()
 
     this.req.addEventListener('progress', event => {
-      event.lengthComputable && this.progress(event.loaded / event.total)
+      event.lengthComputable && this.update && this.update(event.loaded / event.total)
     })
 
     this.req.addEventListener('readystatechange', event => {
@@ -16,7 +16,7 @@ class Jax {
   }
 
   progress(func) {
-    this.progress = func || undefined
+    this.update = func
     return this
   }
 
@@ -25,3 +25,11 @@ class Jax {
     this.req.send()
   }
 }
+
+const res = new Jax('http://localhost:3000/test.json')
+  .progress(percent => {
+    console.log(percent)
+  })
+  .then(res => {
+    console.log(res)
+  })
