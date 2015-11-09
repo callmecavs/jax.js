@@ -25,11 +25,3 @@ class Jax {
     this.req.send()
   }
 }
-
-const res = new Jax('http://localhost:3000/test.json')
-  .progress(percent => {
-    console.log(percent)
-  })
-  .then(res => {
-    console.log(res)
-  })
