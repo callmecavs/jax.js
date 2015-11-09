@@ -32,6 +32,6 @@ new Jax('progress.json')
     console.log(percent)
   })
   .then(res => {
-    console.log(res)
+    // handle response...
   })
 ```
