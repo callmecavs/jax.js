@@ -4,7 +4,7 @@ Simple AJAX wrapper for GET requests.
 
 ## Usage
 
-Knot was developed with a modern JavaScript workflow in mind. To use it, it's recommended you have a build system in place that can transpile ES6, and bundle modules. For a minimal boilerplate that does so, check out [outset](https://github.com/callmecavs/outset).
+Jax was developed with a modern JavaScript workflow in mind. To use it, it's recommended you have a build system in place that can transpile ES6, and bundle modules. For a minimal boilerplate that does so, check out [outset](https://github.com/callmecavs/outset).
 
 Follow these steps to get started:
 
@@ -13,7 +13,7 @@ Follow these steps to get started:
 
 ### Install
 
-Using NPM, install Knot.js, and add it to your package.json dependencies.
+Using NPM, install Jax.js, and add it to your package.json dependencies.
 
 ```
 $ npm install jax.js --save
@@ -24,13 +24,14 @@ $ npm install jax.js --save
 First, import Jax.
 
 ```es6
-// import Jax
 import Jax from 'jax.js'
 ```
 
-Then, instantiate it. A URL should be passed to the constructor.
+Then, instantiate it.
 
 ```es6
+// pass a URL to the constructor
+
 new Jump('url')
 ```
 
@@ -45,13 +46,9 @@ new Jax('url')
   })
 ```
 
-Optionally, add a progress handler.
-
-Progress is handled via the [ProgressEvent](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent) interface.
+Optionally, add a progress handler. Progress is determined via the [ProgressEvent](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent) interface.
 
 ```es6
-// progress determined via the `ProgressEvent` interface
-
 new Jax('url')
   .progress(percent => {
     // percent downloaded is in decimal form
@@ -60,10 +57,6 @@ new Jax('url')
     // ...
   })
 ```
-
-## Browser Support
-
-Targeting evergreen browsers and **IE10+**.
 
 ## License
 
