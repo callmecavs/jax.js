@@ -1,6 +1,6 @@
 # Jax.js
 
-Simple AJAX wrapper for GET requests.
+A simple AJAX wrapper for GET requests.
 
 ## Usage
 
