@@ -1,10 +1,10 @@
-# jax
+# Jax.js
 
 Simple AJAX wrapper for GET requests.
 
 ## Usage
 
-Mimics Promise syntax, but uses callbacks.
+Jax mimics Promise syntax, but uses callbacks under the hood.
 
 ```es6
 // JSON request
@@ -40,7 +40,8 @@ new Jax('progress.json')
 
 Targeting evergreen browsers and **IE10+**.
 
-## Roadmap
+## License
 
-- [ ] Package for NPM
-- [ ] Cleanup repo
+MIT. © 2015 Michael Cavalea
+
+[![Built With Love](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)

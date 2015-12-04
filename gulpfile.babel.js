@@ -1,16 +1,12 @@
 // IMPORTS
 
+import packageJSON from './package.json'
+
 import babelify from 'babelify'
 import browserify from 'browserify'
 import gulp from 'gulp'
-import autoprefixer from 'gulp-autoprefixer'
-import changed from 'gulp-changed'
 import connect from 'gulp-connect'
-import htmlmin from 'gulp-htmlmin'
-import imagemin from 'gulp-imagemin'
-import minify from 'gulp-minify-css'
-import plumber from 'gulp-plumber'
-import sass from 'gulp-sass'
+import header from 'gulp-header'
 import sourcemaps from 'gulp-sourcemaps'
 import uglify from 'gulp-uglify'
 import assign from 'lodash.assign'
@@ -21,46 +17,27 @@ import watchify from 'watchify'
 
 // ERROR HANDLER
 
-const onError = function(error) {
-  notifier.notify({
-    'title': 'Error',
-    'message': 'Compilation failure.'
-  })
-
+const onError = (error) => {
+  notifier.notify({ 'title': 'Error', 'message': 'Compilation failed.' })
   console.log(error)
-  this.emit('end')
 }
 
-// HTML
+// ATTRIBUTION
 
-gulp.task('html', () => {
-  return gulp.src('src/html/**/*.html')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
-    .pipe(gulp.dest('dist'))
-    .pipe(connect.reload())
-})
-
-// SASS
-
-gulp.task('sass', () => {
-  return gulp.src('src/sass/style.scss')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(autoprefixer({ browsers: [ 'last 2 versions', 'ie >= 9', 'Android >= 4.1' ] }))
-    .pipe(minify())
-    .pipe(sourcemaps.write('./maps', { addComment: false }))
-    .pipe(gulp.dest('dist'))
-    .pipe(connect.reload())
-})
+const attribution = [
+  '/*!',
+  ' * Jax.js <%= pkg.version %> - <%= pkg.description %>',
+  ' * Copyright (c) ' + new Date().getFullYear() + ' <%= pkg.author %> - <%= pkg.homepage %>',
+  ' * License: <%= pkg.license %>',
+  ' */'
+].join('\n')
 
 // JS
 
 const browserifyArgs = {
-  entries: 'src/js/main.js',
   debug: true,
-  transform: [ 'babelify' ]
+  entries: 'src/jax.js',
+  standalone: 'Jax'
 }
 
 const watchifyArgs = assign(watchify.args, browserifyArgs)
@@ -71,13 +48,18 @@ const build = () => {
   console.time('Bundling finished')
 
   return bundler
+    .transform(babelify.configure({
+      presets: ['es2015'],
+      plugins: ['add-module-exports']
+    }))
     .bundle()
     .on('error', onError)
     .on('end', () => console.timeEnd('Bundling finished'))
-    .pipe(source('bundle.js'))
+    .pipe(source('jax.min.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(uglify())
+    .pipe(header(attribution, { pkg: packageJSON }))
+    .pipe(uglify({ preserveComments: 'some' }))
     .pipe(sourcemaps.write('./maps', { addComment: false }))
     .pipe(gulp.dest('dist'))
     .pipe(connect.reload())
@@ -85,24 +67,6 @@ const build = () => {
 
 bundler.on('update', build)
 gulp.task('js', build)
-
-// IMAGES
-
-gulp.task('images', () => {
-  return gulp.src('src/images/**/*.{gif,jpg,png,svg}')
-    .pipe(plumber({ errorHandler: onError }))
-    .pipe(changed('dist'))
-    .pipe(imagemin({ progressive: true, interlaced: true }))
-    .pipe(gulp.dest('dist/images'))
-    .pipe(connect.reload())
-})
-
-// FONTS
-
-gulp.task('fonts', () => {
-  return gulp.src('src/fonts/**/*.{eot,svg,ttf,woff,woff2}')
-    .pipe(gulp.dest('dist/fonts'))
-})
 
 // SERVER
 
@@ -123,22 +87,11 @@ gulp.task('server', () => {
     port: 3000,
     livereload: true,
     middleware: (connect, opt) => {
-      return [
-        sendMaps
-      ]
+      return [ sendMaps ]
     }
   })
 })
 
 // WATCH
 
-gulp.task('watch', () => {
-  gulp.watch('src/html/**/*.html', ['html'])
-  gulp.watch('src/sass/**/*.scss', ['sass'])
-  gulp.watch('src/images/**/*.{gif,jpg,png,svg}', ['images'])
-})
-
-// TASKS
-
-gulp.task('build', ['html', 'sass', 'js', 'images', 'fonts'])
-gulp.task('default', ['server', 'build', 'watch'])
+gulp.task('default', ['js', 'server'])
