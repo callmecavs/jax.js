@@ -1,5 +1,6 @@
 export default class Jax {
   constructor(url = '') {
+    this.sent = false
     this.req = new XMLHttpRequest()
 
     this.req.addEventListener('progress', event => {
@@ -7,9 +8,11 @@ export default class Jax {
     })
 
     this.req.addEventListener('readystatechange', event => {
-      this.req.readyState === 4 && this.req.status === 200
-        ? this.cb(this.req.responseText)
-        : undefined
+      if(this.req.readyState === 4) {
+        this.req.status === 200
+          ? this.cb(this.req.responseText)
+          : this.error(this.req.status)
+      }
     })
 
     this.req.open('GET', url)
@@ -22,6 +25,20 @@ export default class Jax {
 
   then(func) {
     this.cb = func
-    this.req.send()
+    this._send()
+    return this
+  }
+
+  error(func) {
+    this.error = func
+    this._send()
+    return this
+  }
+
+  _send() {
+    if(!this.sent) {
+      this.req.send()
+      this.sent = true
+    }
   }
 }

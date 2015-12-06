@@ -58,6 +58,21 @@ new Jax('url')
   })
 ```
 
+Don't forget to handle errors!
+
+```es6
+new Jax('url')
+  .progress(percent => {
+    // ...
+  })
+  .then(res => {
+    // ...
+  })
+  .error(status => {
+    // status is an HTTP status code
+  })
+```
+
 ## License
 
 MIT. © 2015 Michael Cavalea
