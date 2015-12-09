@@ -32,7 +32,7 @@ Then, instantiate it.
 ```es6
 // pass a URL to the constructor
 
-new Jump('url')
+new Jax('url')
 ```
 
 The request won't be sent until a response handler is added.
