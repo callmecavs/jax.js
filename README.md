@@ -1,6 +1,8 @@
 # Jax.js
 
-A simple AJAX wrapper for GET requests.
+[![Jax.js on NPM](https://img.shields.io/npm/v/jax.js.svg)](https://www.npmjs.com/package/jax.js)
+
+A tiny AJAX wrapper for GET requests.
 
 ## Usage
 
@@ -9,7 +11,7 @@ Jax was developed with a modern JavaScript workflow in mind. To use it, it's rec
 Follow these steps to get started:
 
 * [Install](#install)
-* [Instantiate](#instantiate)
+* [Call](#call)
 
 ### Install
 
@@ -19,62 +21,28 @@ Using NPM, install Jax.js, and add it to your package.json dependencies.
 $ npm install jax.js --save
 ```
 
-### Instantiate
+### Call
 
-First, import Jax.
-
-```es6
-import Jax from 'jax.js'
-```
-
-Then, instantiate it.
+Jax mimics promise syntax, but uses callbacks.
 
 ```es6
-// pass a URL to the constructor
+// import Jax
+import jax from 'jax.js'
 
-new Jump('url')
-```
-
-The request won't be sent until a response handler is added.
-
-```es6
-// mimics Promise syntax, but uses callbacks under the hood
-
-new Jax('url')
-  .then(res => {
-    // ...
+// make a request
+jax('url')
+  .then((response, status) => {
+    // at this point, the request is done
+    // if response === null, status !== 200
   })
 ```
 
-Optionally, add a progress handler. Progress is determined via the [ProgressEvent](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent) interface.
+## Browser Support
 
-```es6
-new Jax('url')
-  .progress(percent => {
-    // percent downloaded is in decimal form
-  })
-  .then(res => {
-    // ...
-  })
-```
-
-Don't forget to handle errors!
-
-```es6
-new Jax('url')
-  .progress(percent => {
-    // ...
-  })
-  .then(res => {
-    // ...
-  })
-  .error(status => {
-    // status is an HTTP status code
-  })
-```
+Targeting evergreen browsers and **IE10+**.
 
 ## License
 
-MIT. © 2015 Michael Cavalea
+MIT. © 2016 Michael Cavalea
 
 [![Built With Love](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
