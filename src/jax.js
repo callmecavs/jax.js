@@ -1,31 +1,52 @@
 export default () => {
-  // const callbacks = ['success', 'progress', 'error'].reduce((prev, curr) => {
-  //   prev[curr] = null
-  //   return prev
-  // }, {})
+  // init promises
+  const names = ['success', 'error']
 
-  const callbacks = {
-    success: null,
-    // progress: null,
-    error: null
-  }
+  const funcs = names.reduce((prev, curr) => {
+    prev[curr] = ''
+    return prev
+  }, {})
 
   const request = new XMLHttpRequest()
   request.addEventListener('readystatechange', ready)
-  // request.addEventListener('progress', callbacks.progress)
+
+  return {
+    get: get
+  }
 
   function get(url) {
     request.open('GET', url)
-    return callbacks
+    request.send()
+
+    return promises()
   }
 
   function ready() {
     if(request.readyState === request.DONE) {
       if(request.status === 200) {
-        return callbacks.success(request.responseText)
+        return funcs.success(request.responseText)
       }
 
-      return callbacks.error(request.status)
+      return funcs.error(request.status)
     }
+  }
+
+  function promises() {
+    // return {
+    //   success: (func) => {
+    //     callbacks.success = func
+    //   },
+    //   progress: (func) => {
+    //     callbacks.progress = func
+    //   },
+    //   error: (func) => {
+    //     callbacks.error = func
+    //   }
+    // }
+
+    return names.reduce((prev, curr) => {
+      prev[curr] = (func) => funcs[curr] = func
+      return prev
+    }, {})
   }
 }
