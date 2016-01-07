@@ -1,11 +1,8 @@
 export default () => {
-  // init promises
-  const names = ['success', 'error']
-
-  const funcs = names.reduce((prev, curr) => {
-    prev[curr] = ''
-    return prev
-  }, {})
+  const promises = {
+    success: null,
+    error: null
+  }
 
   const request = new XMLHttpRequest()
   request.addEventListener('readystatechange', ready)
@@ -18,34 +15,22 @@ export default () => {
     request.open('GET', url)
     request.send()
 
-    return promises()
+    return setters()
   }
 
   function ready() {
     if(request.readyState === request.DONE) {
       if(request.status === 200) {
-        return funcs.success(request.responseText)
+        return promises.success(request.responseText)
       }
 
-      return funcs.error(request.status)
+      return promises.error(request.status)
     }
   }
 
-  function promises() {
-    // return {
-    //   success: (func) => {
-    //     callbacks.success = func
-    //   },
-    //   progress: (func) => {
-    //     callbacks.progress = func
-    //   },
-    //   error: (func) => {
-    //     callbacks.error = func
-    //   }
-    // }
-
-    return names.reduce((prev, curr) => {
-      prev[curr] = (func) => funcs[curr] = func
+  function setters() {
+    return Object.keys(promises).reduce((prev, curr) => {
+      prev[curr] = (func) => promises[curr] = func
       return prev
     }, {})
   }
