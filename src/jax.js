@@ -24,8 +24,8 @@ export default () => {
       if(request.status === 200) {
         return callbacks.success(request.responseText)
       }
-    }
 
-    return callbacks.error(request.status)
+      return callbacks.error(request.status)
+    }
   }
 }
