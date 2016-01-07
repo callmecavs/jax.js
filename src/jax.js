@@ -1,44 +1,31 @@
-export default class Jax {
-  constructor(url = '') {
-    this.sent = false
-    this.req = new XMLHttpRequest()
+export default () => {
+  // const callbacks = ['success', 'progress', 'error'].reduce((prev, curr) => {
+  //   prev[curr] = null
+  //   return prev
+  // }, {})
 
-    this.req.addEventListener('progress', event => {
-      event.lengthComputable && this.update && this.update(event.loaded / event.total)
-    })
+  const callbacks = {
+    success: null,
+    // progress: null,
+    error: null
+  }
 
-    this.req.addEventListener('readystatechange', event => {
-      if(this.req.readyState === 4) {
-        this.req.status === 200
-          ? this.cb(this.req.responseText)
-          : this.error(this.req.status)
+  const request = new XMLHttpRequest()
+  request.addEventListener('readystatechange', ready)
+  // request.addEventListener('progress', callbacks.progress)
+
+  function get(url) {
+    request.open('GET', url)
+    return callbacks
+  }
+
+  function ready() {
+    if(request.readyState === request.DONE) {
+      if(request.status === 200) {
+        return callbacks.success(request.responseText)
       }
-    })
-
-    this.req.open('GET', url)
-  }
-
-  progress(func) {
-    this.update = func
-    return this
-  }
-
-  then(func) {
-    this.cb = func
-    this._send()
-    return this
-  }
-
-  error(func) {
-    this.error = func
-    this._send()
-    return this
-  }
-
-  _send() {
-    if(!this.sent) {
-      this.req.send()
-      this.sent = true
     }
+
+    return callbacks.error(request.status)
   }
 }
