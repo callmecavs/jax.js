@@ -1,7 +1,7 @@
 {
   "name":        "jax.js",
-  "version":     "0.0.1",
-  "description": "A tiny AJAX wrapper for GET requests.",
+  "version":     "1.0.0",
+  "description": "A tiny Promise wrapper for GET requests.",
   "homepage":    "https://github.com/callmecavs/jax.js",
   "main":        "dist/jax.min.js",
 
