@@ -27,13 +27,12 @@ $ npm install jax.js --save
 Import Jax from `node_modules`, naming it whatever you prefer.
 
 ```es6
-// import Jax
 import jax from 'jax.js'
 ```
 
 ### Call
 
-Jax uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) under the hood. Making a GET request looks as follows:
+Jax uses [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) under the hood. Making a GET request uses the standard Promise syntax:
 
 ```es6
 jax('url')
@@ -47,7 +46,7 @@ jax('url')
   })
 ```
 
-Don't forget that, because `then` returns a Promise, you can chain it.
+Because `then` returns a Promise, you can chain it.
 
 ## Browser Support
 
