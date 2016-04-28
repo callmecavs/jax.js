@@ -1,9 +1,10 @@
 {
   "name":        "jax.js",
-  "version":     "1.0.0",
+  "version":     "1.0.1",
   "description": "A tiny Promise wrapper for GET requests.",
   "homepage":    "https://github.com/callmecavs/jax.js",
   "main":        "dist/jax.min.js",
+  "jsnext:main": "src/jax.js",
 
   "author":  "Michael Cavalea",
   "license": "MIT",
