@@ -1,6 +1,6 @@
 # Jax.js
 
-[![Jax.js on NPM](https://img.shields.io/npm/v/jax.js.svg)](https://www.npmjs.com/package/jax.js)
+[![Jax.js on NPM](https://img.shields.io/npm/v/jax.js.svg?style=flat-square)](https://www.npmjs.com/package/jax.js)
 
 A tiny Promise wrapper for GET requests.
 
